@@ -676,6 +676,19 @@ section{padding:0}
  #care .care-grid b{font-size:15px}#care .care-grid span{font-size:12px}
 }
 @media (max-width:760px){#reviews .sheet-box{padding-bottom:calc(46px + env(safe-area-inset-bottom));overflow:hidden}}
+/* крупнее и ярче список цен + выбор услуги */
+.pz-list .pz-row{font-size:calc(17px*var(--pzk))!important;color:#2a1c14;font-weight:500;cursor:pointer;padding-left:6px;padding-right:6px;border-radius:8px;transition:background .15s}
+.pz-row b{font-weight:700;color:#8a5a1f;font-size:1.04em}
+.pz-row:hover{background:rgba(200,150,70,.10)}
+.pz-row.sel{background:rgba(214,163,86,.22);box-shadow:inset 3px 0 0 #b9812f}
+.pz-hint{margin:8px 0 0;font-size:calc(14.5px*var(--pzk));line-height:1.35;color:#3a2a1e}
+.pz-hint b{color:#8a5a1f}
+@media (max-width:760px){.pz-list .pz-row{font-size:calc(16px*var(--pzk))!important}}
+#catsheet .cat-pane .svc{cursor:pointer;padding-left:6px;padding-right:6px;border-radius:8px}
+#catsheet .cat-pane .svc.sel{background:rgba(214,163,86,.22);box-shadow:inset 3px 0 0 #b9812f}
+#catsheet .cat-pane .svc b{display:flex!important;justify-content:space-between;gap:10px}
+#catsheet .svc-p{font-style:normal;font-weight:700;color:#8a5a1f;white-space:nowrap}
+@media (min-width:761px){#catsheet .cat-pane .svc b{font-size:16px!important;color:#1d140f!important}#catsheet .cat-pane .svc span{font-size:14px!important;color:#3b2d24!important}#catsheet .svc-m{font-size:13.5px!important;color:#3b2d24!important}#catsheet .svc-m a{padding:2px 10px!important}}
 /* ===== mobile version (<=760px): native layout instead of the scaled plate ===== */
 .m-site,.m-bar{display:none}
 @media (max-width:760px){
@@ -1285,12 +1298,13 @@ window.__fillCat=function(cat){
   sh.classList.remove('has-tab');window.__landSrc=im.src;
   var cnt=function(n){var m=n%10,h=n%100;return n+(m===1&&h!==11?' услуга':(m>=2&&m<=4&&(h<12||h>14)?' услуги':' услуг'))};var minp=function(a){var m=null;a.forEach(function(it){if(it.price!=null&&(m==null||it.price<m))m=it.price});return m==null?'':' · от '+money(m)};
   L.innerHTML='<div class="cat-tabs">'+keys.map(function(k,i){return '<button type="button" class="cat-tab" data-i="'+i+'"><b>'+esc(k)+'</b><span>'+cnt(subs[k].length)+'</span></button>'}).join('')+'</div><div class="cat-pane" hidden></div>'+'<div class="cat-cta"><a class="btn btn-primary" href="#online">Записаться онлайн</a><a class="btn btn-outline" href="#booking">Перезвоните мне</a><a class="btn btn-fill" id="catPriceBtn" href="#prices" data-pz-cat="'+esc(cat)+'">Цены</a></div>'
-  L.onclick=function(e){var t=e.target.closest('.cat-tab');if(!t)return;var pane=L.querySelector('.cat-pane'),was=t.classList.contains('on');
+  L._cur={cat:cat,sub:null,svc:null};
+  L.onclick=function(e){var sv=e.target.closest('.svc');if(sv&&!e.target.closest('a')){[].forEach.call(L.querySelectorAll('.svc'),function(x){x.classList.toggle('sel',x===sv)});if(L._cur)L._cur.svc=sv.dataset.n;return}var cta=e.target.closest('.cat-cta a[href="#online"]');if(cta){var c=L._cur||{},B=window.__BM||[],nm=null;B.forEach(function(m){if(!nm&&m.groups.some(function(g){return g[0]===c.cat&&(!g[1]||!c.sub||g[1]===c.sub)}))nm=m.name});if(nm&&window.__olPick)window.__olPick(nm,c.svc);return}var t=e.target.closest('.cat-tab');if(!t)return;var pane=L.querySelector('.cat-pane'),was=t.classList.contains('on');
     [].forEach.call(L.querySelectorAll('.cat-tab'),function(x){x.classList.remove('on')});
     var im2=document.getElementById('catImg');var pb=document.getElementById('catPriceBtn');if(was){pane.hidden=true;sh.classList.remove('has-tab');im2.src=window.__landSrc;if(pb)pb.removeAttribute('data-pz-sub');return}if(pb)pb.setAttribute('data-pz-sub',keys[+t.dataset.i]);
     t.classList.add('on');var a=subs[keys[+t.dataset.i]];var sp=[].slice.call(document.querySelectorAll('.cat-ph img')).filter(function(i){return i.dataset.cat===cat&&i.dataset.sub===keys[+t.dataset.i]})[0];im2.src=sp?sp.src:window.__landSrc;
     pane.className='cat-pane'+(a.length>8?' three':(a.length>3?' two':''));
-    var subName=keys[+t.dataset.i];var BMs=window.__BM||[];pane.innerHTML=a.map(function(it){var d=(window.__svcDesc||{})[it.name]||'';var ms=BMs.filter(function(m){return m.groups.some(function(g){return g[0]===cat&&(!g[1]||g[1]===subName)})});return '<div class="svc"><b>'+esc(it.name)+'</b>'+(d?'<span>'+esc(d)+'</span>':'')+(ms.length?'<div class="svc-m">Мастера: '+ms.map(function(m){return '<a href="#online" data-book-master="'+esc(m.name)+'" data-book-svc="'+esc(it.name)+'">'+esc(m.name)+'</a>'}).join('')+'</div>':'')+'</div>'}).join('');
+    var subName=keys[+t.dataset.i];L._cur={cat:cat,sub:subName,svc:null};var BMs=window.__BM||[];pane.innerHTML=a.map(function(it){var d=(window.__svcDesc||{})[it.name]||'';var ms=BMs.filter(function(m){return m.groups.some(function(g){return g[0]===cat&&(!g[1]||g[1]===subName)})});return '<div class="svc" role="button" tabindex="0" data-n="'+esc(it.name)+'"><b>'+esc(it.name)+(it.price!=null?'<em class="svc-p">'+money(it.price)+'</em>':'')+'</b>'+(d?'<span>'+esc(d)+'</span>':'')+(ms.length?'<div class="svc-m">Мастера: '+ms.map(function(m){return '<a href="#online" data-book-master="'+esc(m.name)+'" data-book-svc="'+esc(it.name)+'">'+esc(m.name)+'</a>'}).join('')+'</div>':'')+'</div>'}).join('');
     pane.hidden=false;sh.classList.add('has-tab');var b=sh.querySelector('.sheet-box');if(b)b.scrollTop=0};
   var box=document.querySelector('#catsheet .sheet-box');if(box)box.scrollTop=0;
   return true};
@@ -2167,20 +2181,25 @@ function h(){var x=(location.hash||'').slice(1);if(x==='online'||x==='booking')s
   var data=window.__priceData,box=document.getElementById('priceAcc');if(!data||!box)return;
   var esc=function(x){return String(x==null?'':x).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})};
   var money=function(n){return n==null?'уточняется':new Intl.NumberFormat('ru-BY',{maximumFractionDigits:2}).format(n)+' BYN'};
-  var cats=Object.keys(data);
+  var cats=Object.keys(data);var cur={c:null,s:null,svc:null};
+  function masterFor(c,s){var B=window.__BM||[];for(var k=0;k<B.length;k++){var g=B[k].groups;for(var j=0;j<g.length;j++){if(g[j][0]===c&&(!g[j][1]||g[j][1]===s))return B[k].name}}return null}
+  function hint(){var h=box.querySelector('.pz-hint');if(!h)return;var m=masterFor(cur.c,cur.s);h.innerHTML=m?'Эту процедуру делает мастер <b>'+esc(m)+'</b>. Нажмите «Записаться онлайн» — мастер и услуга уже будут выбраны.':'Нажмите на услугу, затем «Записаться онлайн».'}
   box.className='pz';
-  box.innerHTML='<div class="pz-tabs">'+cats.map(function(c,i){return '<button type="button" class="pz-tab'+(i?'':' on')+'" data-i="'+i+'">'+esc(c)+'</button>'}).join('')+'</div><div class="pz-body"></div><div class="pz-cta"><a class="btn btn-primary" href="#online">Записаться онлайн</a><a class="btn btn-outline" href="#booking">Перезвоните мне</a></div>';
+  box.innerHTML='<div class="pz-tabs">'+cats.map(function(c,i){return '<button type="button" class="pz-tab'+(i?'':' on')+'" data-i="'+i+'">'+esc(c)+'</button>'}).join('')+'</div><div class="pz-body"></div><p class="pz-hint"></p><div class="pz-cta"><a class="btn btn-primary" href="#online">Записаться онлайн</a><a class="btn btn-outline" href="#booking">Перезвоните мне</a></div>';
   var body=box.querySelector('.pz-body');
   function fit(){var sb=box.closest('.sheet-box');if(!sb)return;box.style.setProperty('--pzk',1);var k=1;var tries=0;while(sb.scrollHeight>sb.clientHeight+1&&k>0.66&&tries<12){k=Math.round((k-0.04)*100)/100;box.style.setProperty('--pzk',k);tries++}}
   function show(i,only){var c=cats[i],subs=data[c];
     [].forEach.call(box.querySelectorAll('.pz-tab'),function(t,k){t.classList.toggle('on',k===i)});
     var names=Object.keys(subs);if(!only||names.indexOf(only)<0)only=names[0];
     var rows=subs[only];
-    body.innerHTML='<h3 class="pz-cat">'+esc(c)+' · '+esc(only)+'</h3><div class="pz-sp">'+names.map(function(n){return '<button type="button" class="pz-st'+(n===only?' on':'')+'" data-i="'+i+'" data-s="'+esc(n)+'">'+esc(n)+'</button>'}).join('')+'</div><div class="pz-list'+(rows.length>7?' two':'')+'">'+rows.map(function(it){return '<div class="pz-row"><span>'+esc(it.name)+'</span><i></i><b>'+money(it.price)+'</b></div>'}).join('')+'</div>';
-    fit()}
+    body.innerHTML='<h3 class="pz-cat">'+esc(c)+' · '+esc(only)+'</h3><div class="pz-sp">'+names.map(function(n){return '<button type="button" class="pz-st'+(n===only?' on':'')+'" data-i="'+i+'" data-s="'+esc(n)+'">'+esc(n)+'</button>'}).join('')+'</div><div class="pz-list'+(rows.length>7?' two':'')+'">'+rows.map(function(it){return '<div class="pz-row" role="button" tabindex="0" data-n="'+esc(it.name)+'"><span>'+esc(it.name)+'</span><i></i><b>'+money(it.price)+'</b></div>'}).join('')+'</div>';
+    cur.c=c;cur.s=only;cur.svc=null;hint();fit()}
   window.__pzShow=function(cat,sub,scoped){var i=cats.indexOf(cat);box.classList.toggle('pz-scoped',!!scoped);box.classList.toggle('pz-one',!!(scoped&&sub));show(i<0?0:i,sub||null)};
   window.__pzFit=fit;addEventListener('resize',fit);
-  box.addEventListener('click',function(e){var st=e.target.closest('.pz-st');if(st){show(+st.dataset.i,st.dataset.s);return}var t=e.target.closest('.pz-tab');if(t)show(+t.dataset.i)});
+  function selRow(r){[].forEach.call(box.querySelectorAll('.pz-row'),function(x){x.classList.toggle('sel',x===r)});cur.svc=r.dataset.n}
+  box.addEventListener('keydown',function(e){var r=e.target.closest('.pz-row');if(r&&(e.key==='Enter'||e.key===' ')){e.preventDefault();selRow(r)}});
+  box.querySelector('.pz-cta a[href="#online"]').addEventListener('click',function(){var c=cur.c,s=cur.s,v=cur.svc,n=masterFor(c,s);if(n&&window.__olPick)window.__olPick(n,v)});
+  box.addEventListener('click',function(e){var rw=e.target.closest('.pz-row');if(rw){selRow(rw);return}var st=e.target.closest('.pz-st');if(st){show(+st.dataset.i,st.dataset.s);return}var t=e.target.closest('.pz-tab');if(t)show(+t.dataset.i)});
   document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href="#prices"]');if(!a||a.dataset.cat)return;if(a.dataset.pzCat)window.__pzShow(a.dataset.pzCat,a.dataset.pzSub||null,true);else window.__pzShow(cats[0],null,false);setTimeout(fit,60);setTimeout(fit,350)},true);
   show(0);
 })();
