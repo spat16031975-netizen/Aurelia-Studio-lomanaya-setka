@@ -798,7 +798,7 @@ section{padding:0}
 
 /* ===== broken-grid tiles (mobile) ===== */
 @media (max-width:760px){
-  .m-site{--s:8vw;background:#fbf4ec}
+  .m-site{--s:12vw;background:#fbf4ec}
   .m-t{position:relative;clip-path:polygon(0 var(--y0),100% var(--y1),100% var(--z1),0 var(--z0))}
   .m-t.tF{--y0:0;--y1:0}
   .m-t.tD{--y0:0;--y1:var(--s);margin-top:calc(-1*var(--s) - 1px)}
@@ -810,12 +810,18 @@ section{padding:0}
   .m-st{background:#f6e9dc;padding:calc(var(--s) + 14px) 0 calc(var(--s) + 6px)}
   .m-st .m-stats{padding-top:0;border:0!important}
   .m-sec.m-t{padding:calc(var(--s) + 26px) 18px calc(var(--s) + 14px)}
-  .m-disc.m-t{margin:0;border-radius:0;background:linear-gradient(160deg,#f6c9cd,#f3b3b8)}
+  .m-disc.m-t{margin-left:0;margin-right:0;margin-bottom:0;border-radius:0;background:linear-gradient(160deg,#f6c9cd,#f3b3b8)}
   .m-sv{background:#fffaf5}
   .m-ms{background:#f4e3d9}
   .m-space{background:#f6e9dc}
   .m-rev.m-t{margin-top:calc(-1*var(--s) - 1px);background:#100c0b}
   .m-care{background:#f3e4d6;padding-bottom:calc(var(--s) + 22px)!important}
+}
+
+@media (max-width:760px){
+  .m-hero-img{height:min(84vw,400px);object-position:50% 12%}
+  .m-hero::after{height:min(84vw,400px);background:linear-gradient(180deg,rgba(11,8,7,.1) 0%,rgba(11,8,7,0) 55%,#0b0807 100%)}
+  .m-hero-in{margin-top:calc(-1*min(8vw,32px))}
 }
 /* category sheet: photo + tabs */
 #catsheet .sheet-box{width:min(1100px,100%);padding:0 clamp(16px,3vw,36px) 18px}
@@ -1003,9 +1009,9 @@ section{padding:0}
 @media (prefers-reduced-motion:reduce){.js-rv .r-stage [data-rv],.js-rv .m-site [data-rv]{opacity:1!important;translate:none!important;transition:none!important}}
 .m-bar .m-btn{min-width:0;padding:0 8px;font-size:14px}
 .m-bar{transition:translate .3s,opacity .3s}
-.m-hero-img{height:min(125vw,560px)!important;object-position:50% 0!important}
-.m-hero::after{height:min(125vw,560px)!important;background:linear-gradient(180deg,rgba(11,8,7,.12) 0%,rgba(11,8,7,.04) 58%,#0b0807 100%)!important}
-.m-hero-in{margin-top:calc(-1*min(43vw,180px))!important}
+.m-hero-img{height:min(84vw,400px)!important;object-position:50% 8%!important}
+.m-hero::after{height:min(84vw,400px)!important;background:linear-gradient(180deg,rgba(11,8,7,.08) 0%,rgba(11,8,7,0) 58%,#0b0807 100%)!important}
+.m-hero-in{margin-top:calc(-1*min(7vw,28px))!important}
 .m-disc p{display:none!important}
 .m-bar .m-btn-o{border-color:#C79A5B!important}
 .m-master{border:1px solid rgba(199,154,91,.35)!important}
@@ -2245,6 +2251,23 @@ document.documentElement.classList.add('js-rv');
 var io=new IntersectionObserver(function(es){es.forEach(function(en){if(!en.isIntersecting)return;var e=en.target;io.unobserve(e);
 setTimeout(function(){e.classList.add('rv-in');setTimeout(function(){e.removeAttribute('data-rv')},1000)},e.__d||0)})},{threshold:.12,rootMargin:'0px 0px -5% 0px'});
 els.forEach(function(e,i){e.setAttribute('data-rv','');e.__d=i<24?i*60:0;io.observe(e)});
+}catch(err){}})();</script>
+<script>(function(){try{
+var rm=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
+if(rm||!('IntersectionObserver' in window))return;
+var els=[].slice.call(document.querySelectorAll('.r-stage .r-num,.m-stats b'));
+if(!els.length)return;
+var st=document.createElement('style');st.textContent='.r-num,.m-stats b{font-variant-numeric:tabular-nums}';document.head.appendChild(st);
+function ease(t){return 1-Math.pow(1-t,3)}
+els.forEach(function(el){
+  var fin=el.textContent,parts=fin.split(/(\d+)/),raf=0;
+  function render(k){el.textContent=parts.map(function(p){return /^\d+$/.test(p)?Math.round(+p*k):p}).join('')}
+  function run(){cancelAnimationFrame(raf);var t0=null,D=1500;
+    (function f(ts){if(t0===null)t0=ts;var k=Math.min(1,(ts-t0)/D);render(ease(k));if(k<1)raf=requestAnimationFrame(f)})(performance.now())}
+  render(0);
+  new IntersectionObserver(function(es){es.forEach(function(en){
+    if(en.isIntersecting)run();else{cancelAnimationFrame(raf);render(0)}})},{threshold:.6}).observe(el);
+});
 }catch(err){}})();</script>
 <script>(function(){try{var v=document.getElementById('eyeVid');if(!v)return;
 if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches){v.pause();v.removeAttribute('autoplay');return}
