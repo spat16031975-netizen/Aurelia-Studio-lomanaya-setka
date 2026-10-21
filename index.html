@@ -2246,11 +2246,17 @@ var v=document.getElementById('cVid');if(!v)return;
 if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)return;
 if(!v.offsetParent&&!v.getClientRects().length)return;
 var fmt=v.canPlayType('video/mp4; codecs="avc1.42E01E"')?'Mp4':(v.canPlayType('video/webm; codecs="vp9"')?'Webm':'');if(!fmt)return;
-function go(){try{var t=document.getElementById('cVid'+fmt);var b=atob(t.textContent.trim()),n=b.length,u=new Uint8Array(n);for(var i=0;i<n;i++)u[i]=b.charCodeAt(i);
-v.addEventListener('playing',function(){v.classList.add('on')},{once:true});
-v.addEventListener('error',function(){v.classList.remove('on')});
-v.src=URL.createObjectURL(new Blob([u],{type:fmt==='Mp4'?'video/mp4':'video/webm'}));
-var p=v.play();if(p&&p.catch)p.catch(function(){})}catch(e){}}
-if(document.readyState==='complete')setTimeout(go,300);else addEventListener('load',function(){setTimeout(go,300)});
+var vis=false,ready=false,timer=0,bad=false;
+function play(){if(!ready||bad||!vis||!v.paused)return;try{var p=v.play();if(p&&p.catch)p.catch(function(){})}catch(e){}}
+function later(ms){clearTimeout(timer);timer=setTimeout(function(){if(vis&&!bad){if(v.ended||v.currentTime>=v.duration-.05)v.currentTime=0;play()}},ms)}
+function pause(){clearTimeout(timer);if(!v.paused){v.pause();try{v.currentTime=0}catch(e){}}}
+v.addEventListener('playing',function(){v.classList.add('on')});
+v.addEventListener('ended',function(){later(2400+Math.random()*2600)});
+v.addEventListener('error',function(){bad=true;v.classList.remove('on')});
+function load(){try{var t=document.getElementById('cVid'+fmt);var b=atob(t.textContent.trim()),n=b.length,u=new Uint8Array(n);for(var i=0;i<n;i++)u[i]=b.charCodeAt(i);
+v.src=URL.createObjectURL(new Blob([u],{type:fmt==='Mp4'?'video/mp4':'video/webm'}));v.load();
+v.addEventListener('canplay',function(){ready=true;if(vis)later(500)},{once:true})}catch(e){bad=true}}
+if('IntersectionObserver' in window){new IntersectionObserver(function(es){es.forEach(function(e){vis=e.isIntersecting;if(vis){if(ready)later(v.currentTime>0&&!v.ended?0:500)}else pause()})},{threshold:.4}).observe(v.parentNode)}else{vis=true}
+if(document.readyState==='complete')setTimeout(load,200);else addEventListener('load',function(){setTimeout(load,200)});
 }catch(e){}})();</script></body>
 </html>
