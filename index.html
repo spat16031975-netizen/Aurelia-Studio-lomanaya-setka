@@ -2474,5 +2474,22 @@ addEventListener('popstate',function(e){
   armed=false;history.back();
 });
 })();</script>
+<style id="lumina-top-css">
+.to-top{position:fixed;right:20px;bottom:24px;z-index:60;width:52px;height:52px;border-radius:50%;border:1.5px solid #E6C48E;background:rgba(23,18,15,.88);color:#E6C48E;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;visibility:hidden;transform:translateY(12px);transition:opacity .3s,transform .3s,visibility .3s,background .2s;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);box-shadow:0 6px 20px rgba(0,0,0,.28);padding:0}
+.to-top.show{opacity:1;visibility:visible;transform:none}
+.to-top:hover{background:#E6C48E;color:#17120f}
+.to-top svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:760px){.to-top{right:14px;bottom:calc(78px + env(safe-area-inset-bottom));width:46px;height:46px}}
+body:has(.sheet.open) .to-top,body:has(.policy-modal.open) .to-top{opacity:0;visibility:hidden}
+@media(prefers-reduced-motion:reduce){.to-top{transition:none}}
+.r-forum.r-heroh{font-family:Jost,Forum,sans-serif!important;font-weight:300!important;letter-spacing:.02em!important}
+.m-site .m-hero h1{font-family:Jost,Forum,sans-serif!important;font-weight:300!important;letter-spacing:.02em!important}
+</style>
+<button type="button" class="to-top" id="toTop" aria-label="Наверх"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5.5 11.5L12 5l6.5 6.5"/></svg></button>
+<script id="lumina-top-js">(function(){var b=document.getElementById('toTop');if(!b)return;
+function upd(){b.classList.toggle('show',scrollY>Math.max(500,innerHeight*.6))}
+addEventListener('scroll',upd,{passive:true});addEventListener('resize',upd);upd();
+b.addEventListener('click',function(){if(window.__animateScroll)window.__animateScroll(0);else scrollTo({top:0,behavior:'smooth'})});
+})();</script>
 </body>
 </html>
