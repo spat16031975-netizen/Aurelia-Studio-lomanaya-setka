@@ -2494,6 +2494,7 @@ function end(e){if(x0===null)return;var d=dx,dy=e.clientY-y0;x0=null;if(fig){fig
 if(Math.abs(d)>50&&Math.abs(d)>Math.abs(dy)){btn(d<0?'.st-lb-next':'.st-lb-prev')}}
 lb.addEventListener('pointerup',end);lb.addEventListener('pointercancel',end);
 lb.addEventListener('click',function(e){if(moved&&e.isTrusted){e.stopPropagation();e.preventDefault();moved=false}},true);
+if(img)img.addEventListener('click',function(e){if(e.isTrusted)btn('.st-lb-next')});
 })();</script>
 </body>
 </html>
