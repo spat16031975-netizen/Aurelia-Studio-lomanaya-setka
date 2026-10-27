@@ -2422,5 +2422,57 @@ document.addEventListener('visibilitychange',()=>{
  else if(inView&&eligible()&&!video.ended&&playedThisVisit){video.play().catch(()=>{});}
 });
 desktop.addEventListener('change',()=>{if(!eligible()){runId++;video.pause();}else if(inView){playedThisVisit=false;playOnce();}});
-})();</script></body>
+})();</script><script id="lumina-nav-fx">(function(){
+var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+var root=document.documentElement,raf=0,cancelWheel=null;
+function stopAnim(){if(raf){cancelAnimationFrame(raf);raf=0;root.style.scrollBehavior=''}}
+['wheel','touchstart','keydown','mousedown'].forEach(function(ev){addEventListener(ev,stopAnim,{passive:true})});
+var nativeTo=window.scrollTo.bind(window);
+function ease(t){return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2}
+function animateTo(y){
+  var max=Math.max(0,root.scrollHeight-innerHeight);y=Math.max(0,Math.min(max,y));
+  var y0=scrollY,d=y-y0;if(Math.abs(d)<2||reduce){nativeTo({top:y,behavior:'auto'});return}
+  stopAnim();root.style.scrollBehavior='auto';
+  var dur=Math.max(650,Math.min(1500,500+Math.abs(d)*.45)),t0=null;
+  (function f(ts){if(t0===null)t0=ts;var k=Math.min(1,(ts-t0)/dur);nativeTo(0,y0+d*ease(k));
+    if(k<1)raf=requestAnimationFrame(f);else{raf=0;root.style.scrollBehavior=''}})(performance.now());
+}
+window.__animateScroll=animateTo;
+window.scrollTo=function(a,b){
+  if(a&&typeof a==='object'){
+    if(a.behavior==='smooth'&&typeof a.top==='number'&&(a.left==null||a.left===scrollX)){animateTo(a.top);return}
+    return nativeTo(a)}
+  return nativeTo(a,b)};
+var nativeIV=Element.prototype.scrollIntoView;
+Element.prototype.scrollIntoView=function(o){
+  if(o&&typeof o==='object'&&o.behavior==='smooth'&&(o.block==='start'||!o.block)&&document.scrollingElement&&this.getBoundingClientRect){
+    animateTo(scrollY+this.getBoundingClientRect().top-(innerWidth>=768?90:70));return}
+  return nativeIV.apply(this,arguments)};
+
+/* Кнопка «Назад» на телефоне: закрывает окно или возвращает наверх, а не выходит с сайта */
+var armed=false;
+function mobile(){return matchMedia('(max-width:760px)').matches}
+function overlayOpen(){return document.querySelector('.sheet.open,.policy-modal.open')||document.querySelector('#wmodal:not([hidden])')||document.querySelector('#stLb:not([hidden])')||document.querySelector('#mMenu:not([hidden])')}
+function closeOverlay(){
+  if(window.__closeSheets)try{window.__closeSheets()}catch(e){}
+  var q=function(s){return document.querySelector(s)};
+  var pm=q('.policy-modal.open');if(pm){var pc=q('#policyClose');if(pc)pc.click()}
+  var wm=q('#wmodal:not([hidden])');if(wm){var wc=q('#wclose');if(wc)wc.click()}
+  var lb=q('#stLb:not([hidden])');if(lb){var lc=lb.querySelector('[data-close]');if(lc)lc.click()}
+  var mm=q('#mMenu:not([hidden])');if(mm){var bg=q('#mBurger');if(bg)bg.click()}
+}
+function arm(){
+  if(armed||!mobile())return;armed=true;
+  try{history.replaceState({lum:0},'');history.pushState({lum:1},'')}catch(e){armed=false}
+}
+['pointerdown','touchstart','keydown','scroll'].forEach(function(ev){addEventListener(ev,arm,{passive:true,once:false})});
+addEventListener('popstate',function(e){
+  if(!armed||!mobile())return;
+  if(e.state&&e.state.lum===1)return;
+  if(overlayOpen()){closeOverlay();try{history.pushState({lum:1},'')}catch(_){}return}
+  if(scrollY>160){animateTo(0);try{history.pushState({lum:1},'')}catch(_){}return}
+  armed=false;history.back();
+});
+})();</script>
+</body>
 </html>
