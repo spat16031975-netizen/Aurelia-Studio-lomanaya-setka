@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lumina</title>
+<title>Lumina — демо-версия сайта</title>
+<meta name="robots" content="noindex,nofollow">
 <meta name="theme-color" content="#FAF3EE">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ru_RU">
@@ -1665,6 +1666,7 @@ window.__fillCat=function(cat){
     <p>УНП: <span data-op="unp"></span></p>
     <p>Адрес: <span data-op="address"></span></p>
   </div>
+  <p class="demo-note">Демонстрационная версия сайта. Салон, мастера, отзывы, цены и контактные данные вымышлены и приведены только для примера; запись и заявки не обрабатываются.</p>
   <div class="copy">
     <span>© Lumina, 2026</span>
     <span class="legal">
@@ -2496,5 +2498,14 @@ lb.addEventListener('pointerup',end);lb.addEventListener('pointercancel',end);
 lb.addEventListener('click',function(e){if(moved&&e.isTrusted){e.stopPropagation();e.preventDefault();moved=false}},true);
 if(img)img.addEventListener('click',function(e){if(e.isTrusted)btn('.st-lb-next')});
 })();</script>
+<style id="lumina-demo-css">
+.demo-badge{position:fixed;left:16px;bottom:20px;z-index:59;display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:rgba(23,18,15,.88);border:1px solid rgba(230,196,142,.7);color:#f7efe6;font:600 11.5px/1.2 Manrope,sans-serif;letter-spacing:.08em;text-transform:uppercase;pointer-events:none;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);box-shadow:0 6px 20px rgba(0,0,0,.25)}
+.demo-badge i{width:7px;height:7px;border-radius:50%;background:#E6C48E;display:inline-block}
+.demo-badge span{font-weight:500;letter-spacing:.03em;text-transform:none;opacity:.85}
+@media(max-width:760px){.demo-badge{position:absolute;left:12px;top:74px;bottom:auto;font-size:10px;padding:5px 10px}.demo-badge span{display:none}}
+body:has(.sheet.open) .demo-badge,body:has(.policy-modal.open) .demo-badge,body:has(#stLb:not([hidden])) .demo-badge,body:has(#wmodal:not([hidden])) .demo-badge{opacity:0}
+.demo-note{margin:12px 0 0;font-size:12.5px;line-height:1.5;color:var(--soft);max-width:760px}
+</style>
+<div class="demo-badge" role="note" aria-label="Демонстрационная версия сайта"><i></i>Демо-версия<span>· вымышленный салон</span></div>
 </body>
 </html>
