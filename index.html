@@ -1629,6 +1629,9 @@ window.__fillCat=function(cat){
           <label class="check" for="f-consent"><input type="checkbox" id="f-consent" name="consent" required><span>Я даю согласие на обработку моих персональных данных (имя, телефон) для обработки заявки, в том числе на их передачу в мессенджер Telegram, в соответствии с <button type="button" class="inline-link" data-policy="pd">Политикой обработки персональных данных</button>.</span></label>
           <div class="error-msg">Поставьте галочку, чтобы мы могли связаться с вами.</div>
         </div>
+        <div class="field" data-field="ads" style="margin-bottom:0">
+          <label class="check check-ads" for="f-ads"><input type="checkbox" id="f-ads" name="ads"><span>Хочу получать сообщения об акциях и новостях салона (необязательно). Согласие можно отозвать в любой момент.</span></label>
+        </div>
         <div class="topic-note" id="topicNote" hidden><span>Заявка на подарочный сертификат</span><button type="button" id="topicClear">Убрать</button></div>
         <button type="submit" class="btn btn-primary" id="submitBtn">Перезвоните мне</button>
         <div class="form-status" id="formStatus" role="status" aria-live="polite"></div>
@@ -1725,7 +1728,7 @@ window.__fillCat=function(cat){
   <h3>9. Контакты</h3>
   <p>По вопросам, связанным с обработкой персональных данных: <span class="op" data-op="email"></span>, телефон <a href="tel:">+375 (00) 000-00-00</a>.</p>
 
-  <p class="note">Документ подготовлен на основе Закона Республики Беларусь № 99-З и является типовым. Перед публикацией подставьте реквизиты Оператора и проверьте актуальность текста с юристом. Если Оператор состоит в реестре операторов или обязан уведомлять Национальный центр защиты персональных данных, учтите это отдельно.</p>
+  
 </template>
 
 <template id="tpl-pd">
@@ -1786,7 +1789,7 @@ window.__fillCat=function(cat){
   <h3>12. Заключительные положения</h3>
   <p>Политика действует бессрочно и размещена в открытом доступе на сайте. Оператор вправе изменять Политику; актуальная редакция публикуется на сайте, а дата редакции указана вверху документа.</p>
 
-  <p class="note">Документ подготовлен на основе Закона Республики Беларусь № 99-З и является типовым. Перед публикацией подставьте реквизиты Оператора и проверьте актуальность текста с юристом. Если Оператор состоит в реестре операторов или обязан уведомлять Национальный центр защиты персональных данных, учтите это отдельно.</p>
+  
 </template>
 
 <script>
@@ -1799,8 +1802,8 @@ const CONFIG = {
   TELEGRAM_CHAT_ID: 'ВСТАВЬТЕ_CHAT_ID',
 
   // --- Ссылки ---
-  SLIVKI_URL: 'https://www.slivki.by/salony-krasoty/prestizh',
-  INSTAGRAM_URL: 'https://www.instagram.com/prestizh_minsk/',
+  SLIVKI_URL: 'https://www.slivki.by/',
+  INSTAGRAM_URL: 'https://www.instagram.com/',
   // Ссылка на Яндекс Карты. Замените на точную ссылку организации, когда она будет.
   // Адрес для карты (поиск в Яндекс Картах). Пока указан только город; впишите точный адрес салона, когда он появится (например 'Минск, улица ..., 1').
   // Основной телефон салона: впишите номер (label — как показывать, tel — для звонка в формате +375XXXXXXXXX).
@@ -1812,7 +1815,7 @@ const CONFIG = {
   YANDEX_MAPS_URL: 'https://yandex.by/maps/?text=Минск',
   // Маршрут до салона (при желании замените на точную ссылку из Яндекс Карт).
   ROUTE_URL: 'https://yandex.by/maps/?mode=routes&rtext=~Минск',
-  REVIEWS_URL_SLIVKI: 'https://www.slivki.by/salony-krasoty/prestizh',
+  REVIEWS_URL_SLIVKI: 'https://www.slivki.by/',
   // Ссылка на видео о салоне (YouTube, Instagram, VK и т.д.). Пусто — кнопка «Смотреть видео» ведёт к галерее работ.
   VIDEO_URL: '',
   REVIEWS_URL_YANDEX: 'https://yandex.by/maps/?text=Минск',
@@ -1952,7 +1955,7 @@ function initForm() {
     }
     /* Защита от повторной отправки */
     try {
-      const last = parseInt(localStorage.getItem('prestizh_last_submit') || '0', 10);
+      const last = parseInt(localStorage.getItem('lumina_last_submit') || '0', 10);
       if (Date.now() - last < COOLDOWN_MS) {
         showStatus('ok', 'Заявка уже отправлена. Мы скоро свяжемся с вами.');
         return;
@@ -1961,7 +1964,7 @@ function initForm() {
 
     if (!CONFIG.TELEGRAM_BOT_TOKEN || CONFIG.TELEGRAM_BOT_TOKEN.indexOf('ВСТАВЬТЕ') === 0 ||
         !CONFIG.TELEGRAM_CHAT_ID || CONFIG.TELEGRAM_CHAT_ID.indexOf('ВСТАВЬТЕ') === 0) {
-      showStatus('fail', 'Не удалось отправить заявку. Позвоните нам:' + phonesHtml());
+      showStatus('fail', 'Не удалось отправить заявку. Позвоните нам: ' + phonesHtml());
       console.warn('Заполните TELEGRAM_BOT_TOKEN и TELEGRAM_CHAT_ID в блоке CONFIG.');
       return;
     }
@@ -1974,6 +1977,7 @@ function initForm() {
       'Имя: ' + escapeHtml(nameI.value.trim()) + '\n' +
       'Телефон: ' + escapeHtml(phoneI.value.trim()) + '\n' +
       'Время созвона: ' + escapeHtml(timeS.value) + '\n' +
+      'Согласие на рассылку: ' + ((document.getElementById('f-ads')||{}).checked ? 'да' : 'нет') + '\n' +
       'Отправлено: ' + escapeHtml(minskDateTime()) + ' (Минск)';
 
     try {
@@ -1984,14 +1988,14 @@ function initForm() {
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data.ok) throw new Error('Telegram error');
-      try { localStorage.setItem('prestizh_last_submit', String(Date.now())); } catch (_) {}
+      try { localStorage.setItem('lumina_last_submit', String(Date.now())); } catch (_) {}
       showStatus('ok', 'Спасибо! Мы свяжемся с вами в указанное время.');
       form.reset();
       setTopic('');
       btn.textContent = 'Заявка отправлена';
       setTimeout(() => { btn.disabled = false; btn.textContent = oldText; sending = false; }, COOLDOWN_MS);
     } catch (err) {
-      showStatus('fail', 'Не удалось отправить заявку. Позвоните нам:' + phonesHtml());
+      showStatus('fail', 'Не удалось отправить заявку. Позвоните нам: ' + phonesHtml());
       btn.disabled = false; btn.textContent = oldText; sending = false;
     }
   });
@@ -2210,14 +2214,14 @@ auto();})();</script>
   S4.addEventListener('submit',function(e){e.preventDefault();if(sending)return;show('','');
     if($('#ol-hp').value){show('ok','Спасибо! Мы подтвердим запись по телефону.');return}
     if(!valid())return;
-    try{if(Date.now()-parseInt(localStorage.getItem('prestizh_last_submit')||'0',10)<60000){show('ok','Заявка уже отправлена. Мы скоро свяжемся с вами.');return}}catch(_){}
+    try{if(Date.now()-parseInt(localStorage.getItem('lumina_last_submit')||'0',10)<60000){show('ok','Заявка уже отправлена. Мы скоро свяжемся с вами.');return}}catch(_){}
     var ph=CONFIG.PHONES.map(function(p){return '<a href="tel:'+p.tel+'">'+p.label+'</a>'}).join('');
-    if(!CONFIG.TELEGRAM_BOT_TOKEN||CONFIG.TELEGRAM_BOT_TOKEN.indexOf('ВСТАВЬТЕ')===0||!CONFIG.TELEGRAM_CHAT_ID||CONFIG.TELEGRAM_CHAT_ID.indexOf('ВСТАВЬТЕ')===0){show('fail','Не удалось отправить заявку. Позвоните нам:'+ph);return}
+    if(!CONFIG.TELEGRAM_BOT_TOKEN||CONFIG.TELEGRAM_BOT_TOKEN.indexOf('ВСТАВЬТЕ')===0||!CONFIG.TELEGRAM_CHAT_ID||CONFIG.TELEGRAM_CHAT_ID.indexOf('ВСТАВЬТЕ')===0){show('fail','Не удалось отправить заявку. Позвоните нам: '+ph);return}
     sending=true;btn.disabled=true;var old=btn.textContent;btn.textContent='Отправляем…';
     var text='<b>Новая запись с сайта</b>\nМастер: '+escapeHtml(sel.m.name)+'\nПроцедура: '+escapeHtml(sel.svc.name)+' ('+escapeHtml(fmt(sel.svc.price))+')\nДень: '+escapeHtml(sel.date.label)+'\nВремя: '+sel.time+'\nИмя: '+escapeHtml(nameI.value.trim())+'\nТелефон: '+escapeHtml(phoneI.value.trim());
     fetch('https://api.telegram.org/bot'+CONFIG.TELEGRAM_BOT_TOKEN+'/sendMessage',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:CONFIG.TELEGRAM_CHAT_ID,text:text,parse_mode:'HTML'})})
-    .then(function(r){return r.json().then(function(j){if(!r.ok||!j.ok)throw 0})}).then(function(){try{localStorage.setItem('prestizh_last_submit',String(Date.now()))}catch(_){}show('ok','Спасибо! Мы подтвердим запись по телефону.');S4.reset();btn.textContent='Заявка отправлена';setTimeout(function(){btn.disabled=false;btn.textContent=old;sending=false},60000)})
-    .catch(function(){show('fail','Не удалось отправить заявку. Позвоните нам:'+ph);btn.disabled=false;btn.textContent=old;sending=false})});
+    .then(function(r){return r.json().then(function(j){if(!r.ok||!j.ok)throw 0})}).then(function(){try{localStorage.setItem('lumina_last_submit',String(Date.now()))}catch(_){}show('ok','Спасибо! Мы подтвердим запись по телефону.');S4.reset();btn.textContent='Заявка отправлена';setTimeout(function(){btn.disabled=false;btn.textContent=old;sending=false},60000)})
+    .catch(function(){show('fail','Не удалось отправить заявку. Позвоните нам: '+ph);btn.disabled=false;btn.textContent=old;sending=false})});
   /* предвыбор из карточек мастеров и коллажа */
   window.__olPick=function(n,sv){if(n&&BM.some(function(x){return x.name===n})){chooseMaster(n,false);if(sv){var b=$$('.ol-s',root).filter(function(x){return x.dataset.svc===sv})[0];if(b)chooseService(b,true)}window.__olFocus=sel.svc?S3:S2}};
   document.addEventListener('click',function(e){var a=e.target.closest('a[data-book-master]');if(!a)return;var n=a.dataset.bookMaster;
@@ -2529,5 +2533,16 @@ src.forEach(function(im){var f=document.createElement('figure'),i=document.creat
 var n=document.getElementById('mGalN');function upd(){var fg=g.querySelector('figure');var w=fg?fg.getBoundingClientRect().width+10:1;var k=Math.round(g.scrollLeft/w)+1;if(n)n.textContent=Math.min(k,src.length)+' / '+src.length}
 g.addEventListener('scroll',upd,{passive:true});upd()})();</script><script id="lumina-fit-js">(function(){var h=document.querySelector('.m-hero h1');if(!h)return;
 function fit(){if(innerWidth>760){h.style.fontSize='';return}h.style.fontSize='';var fs=parseFloat(getComputedStyle(h).fontSize),n=0;while(h.scrollWidth>h.clientWidth+0.5&&fs>14&&n++<80){fs-=.5;h.style.setProperty('font-size',fs+'px','important')}}
-fit();if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);addEventListener('resize',fit);addEventListener('load',fit)})();</script></body>
+fit();if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);addEventListener('resize',fit);addEventListener('load',fit)})();</script><style id="lumina-fix-css">
+.m-site .m-hero .m-btn-g{background:transparent!important;border:0!important;box-shadow:none!important;height:auto;min-height:36px;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px;font-weight:500;opacity:.92}
+.m-rev .m-demo-note{margin:-4px 0 14px;font-size:12.5px;color:var(--on-dark-soft,#D9C8BC);opacity:.85}
+.check.check-ads{margin-top:12px}
+.m-sv .m-svgrid .sv-tile span{white-space:nowrap}
+</style>
+<script id="lumina-fix-js">(function(){
+function prices(){var D=window.__priceData;if(!D)return;var min={};Object.keys(D).forEach(function(k){var m=1e9;Object.keys(D[k]).forEach(function(g){D[k][g].forEach(function(it){if(typeof it.price==='number'&&it.price<m)m=it.price})});if(m<1e9)min[k.toLowerCase()]=m});
+[].forEach.call(document.querySelectorAll('#mSvcs .sv-tile'),function(t){if(t.dataset.pr)return;var b=t.querySelector('b'),sp=t.querySelector('span');if(!b||!sp)return;var v=min[b.textContent.trim().toLowerCase()];if(v==null)return;t.dataset.pr=1;sp.textContent=sp.textContent.trim()+' · от '+String(v).replace('.',',')+' BYN'})}
+prices();setTimeout(prices,400);setTimeout(prices,1200);
+var h=document.querySelector('.m-rev .m-h');if(h&&!document.querySelector('.m-demo-note')){h.textContent='ИСТОРИИ НАШИХ КЛИЕНТОВ';var n=document.createElement('p');n.className='m-demo-note';n.textContent='Демонстрационные отзывы: примеры оформления.';h.insertAdjacentElement('afterend',n)}
+})();</script></body>
 </html>
