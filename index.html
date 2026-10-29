@@ -2569,9 +2569,13 @@ body:has(#mMenu:not([hidden])) .demo-badge{opacity:0}
 #prices .pz-cta .btn{height:auto;min-height:44px;padding-top:8px;padding-bottom:8px;line-height:1.15}
 }
 </style><script id="lumina-herovid">(function(){var v=document.getElementById('mHeroVid');if(!v)return;
-var rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;v.muted=true;v.defaultMuted=true;
-function play(){if(rm)return;var p=v.play();if(p&&p.catch)p.catch(function(){})}
-if('IntersectionObserver' in window){new IntersectionObserver(function(es){es[0].isIntersecting?play():v.pause()},{threshold:.15}).observe(v)}else play();
+v.muted=true;v.defaultMuted=true;v.setAttribute('muted','');v.playsInline=true;
+function play(){var p;try{p=v.play()}catch(e){}if(p&&p.catch)p.catch(function(){})}
+/* iOS и часть браузеров не играют видео из data:-ссылки — превращаем в blob */
+var src=v.querySelector('source'),u=src&&src.getAttribute('src');
+if(u&&u.indexOf('data:')===0&&window.fetch&&window.URL){fetch(u).then(function(r){return r.blob()}).then(function(b){v.src=URL.createObjectURL(b);v.load();play()}).catch(function(){})}
+if('IntersectionObserver' in window){new IntersectionObserver(function(es){es[0].isIntersecting?play():v.pause()},{threshold:.1}).observe(v)}else play();
 document.addEventListener('visibilitychange',function(){document.hidden?v.pause():play()});
-document.addEventListener('touchstart',play,{once:true,passive:true})})();</script></body>
+['touchstart','pointerdown','click','scroll','keydown'].forEach(function(t){addEventListener(t,function(){if(v.paused&&v.getBoundingClientRect().bottom>0&&v.getBoundingClientRect().top<innerHeight)play()},{passive:true})});
+v.addEventListener('canplay',play);setTimeout(play,300);setTimeout(play,1500)})();</script></body>
 </html>
