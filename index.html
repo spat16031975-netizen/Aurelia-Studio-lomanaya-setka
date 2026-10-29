@@ -1993,7 +1993,7 @@ function initForm() {
       btn.textContent = 'Заявка отправлена';
       setTimeout(() => { btn.disabled = false; btn.textContent = oldText; sending = false; }, COOLDOWN_MS);
     } catch (err) {
-      showStatus('ok', 'Спасибо! Это демо-версия: заявка никуда не отправляется, так клиент увидит ответ после отправки.'); form.reset(); setTopic('');
+      showStatus('fail', 'Не удалось отправить заявку. Позвоните нам: ' + phonesHtml());
       btn.disabled = false; btn.textContent = oldText; sending = false;
     }
   });
@@ -2233,12 +2233,13 @@ auto();})();</script>
     var sec=document.getElementById(id);if(!sec)return false;
     if(id==='top'){scrollTo({top:0,behavior:'smooth'});return true}
     var tgt=sec.querySelector('h2')||sec;
+    var gp=null;if(id==='about'&&document.querySelector('.m-space')&&document.querySelector('.m-site').offsetParent){tgt=document.querySelector('.m-space');gp=0}
     if(id==='online')window.__olFocus=null;
     if(id==='map'){tgt=document.querySelector('#contacts h2')||sec}
     function hdrH(){var m=document.querySelector('.m-top'),h=document.querySelector('.site-header');
       if(m&&m.offsetHeight&&getComputedStyle(m).display!=='none')return m.offsetHeight;
       return h&&h.offsetHeight?h.offsetHeight:0}
-    var gap=innerWidth>=768?42:18;
+    var gap=gp!==null?gp:(innerWidth>=768?42:18);
     function want(){return Math.max(0,offTop(tgt)-hdrH()-gap)}
     scrollTo({top:want(),behavior:'smooth'});
     /* после закрытия окон раскладка меняется: донастраиваем позицию точно на заголовок */
@@ -2562,5 +2563,10 @@ f();setTimeout(f,600);setTimeout(f,1800)})();</script><style id="lumina-fix3-css
 }
 @media(max-width:359px){.demo-badge{top:74px;left:12px}}
 body:has(#mMenu:not([hidden])) .demo-badge{opacity:0}
+</style><style id="lumina-fix4-css">
+@media(max-width:760px){
+#prices .pz-cta,#catsheet .cat-cta{position:sticky;bottom:0;z-index:5;background:var(--bg);margin:0 -12px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));box-shadow:0 -10px 14px -10px rgba(40,25,15,.25)}
+#prices .pz-cta .btn{height:auto;min-height:44px;padding-top:8px;padding-bottom:8px;line-height:1.15}
+}
 </style></body>
 </html>
