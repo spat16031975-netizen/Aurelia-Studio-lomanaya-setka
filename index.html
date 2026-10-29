@@ -2232,12 +2232,19 @@ auto();})();</script>
   function goto(id){
     var sec=document.getElementById(id);if(!sec)return false;
     if(id==='top'){scrollTo({top:0,behavior:'smooth'});return true}
-    var h=document.querySelector('.site-header'),hh=h?h.offsetHeight:0;
     var tgt=sec.querySelector('h2')||sec;
-    if(id==='online'&&window.__olFocus&&!window.__olFocus.hidden){tgt=window.__olFocus;window.__olFocus=null}else if(id==='online')window.__olFocus=null;
+    if(id==='online')window.__olFocus=null;
     if(id==='map'){tgt=document.querySelector('#contacts h2')||sec}
+    function hdrH(){var m=document.querySelector('.m-top'),h=document.querySelector('.site-header');
+      if(m&&m.offsetHeight&&getComputedStyle(m).display!=='none')return m.offsetHeight;
+      return h&&h.offsetHeight?h.offsetHeight:0}
     var gap=innerWidth>=768?42:18;
-    scrollTo({top:Math.max(0,offTop(tgt)-hh-gap),behavior:'smooth'});return true}
+    function want(){return Math.max(0,offTop(tgt)-hdrH()-gap)}
+    scrollTo({top:want(),behavior:'smooth'});
+    /* после закрытия окон раскладка меняется: донастраиваем позицию точно на заголовок */
+    var last=-1,still=0,n=0,iv=setInterval(function(){n++;var y=scrollY;still=(y===last)?still+1:0;last=y;
+      if(still>=2||n>60){clearInterval(iv);var w=want();if(Math.abs(scrollY-w)>4)scrollTo({top:w,behavior:'auto'})}},120);
+    return true}
   window.__goto=goto;
   document.addEventListener('click',function(e){
     var a=e.target.closest&&e.target.closest('a[href^="#"]');
