@@ -1299,7 +1299,7 @@ section{padding:0}
     <div class="m-track" id="mMasters"></div>
   </section>
 
-  <section class="m-sec m-space m-t tU bD">
+  <section class="m-sec m-space m-t tU bD wp wf">
     <div class="m-gal" id="mGal"><span id="about" style="position:absolute;left:0;top:-70px"></span></div><div class="m-gal-n" id="mGalN"></div>
     <h2 class="m-h">ПРОСТРАНСТВО, В КОТОРОМ ХОЧЕТСЯ БЫТЬ СОБОЙ</h2>
     <p class="m-sub">Современный интерьер, уютная атмосфера и внимание к каждой детали.</p>
@@ -1314,7 +1314,7 @@ section{padding:0}
     <div class="m-track m-rtrack" id="mReviews"></div>
   </section>
 
-  <section class="m-sec m-care m-t tD bU wp wf">
+  <section class="m-sec m-care m-t tD bU wp">
     <h2 class="m-h">УХОД, КОТОРЫЙ ВДОХНОВЛЯЕТ</h2>
     <p class="m-sub">Только сертифицированная косметика премиум-класса и многоступенчатая стерилизация инструментов. Красота здесь всегда безопасна.</p>
     <div class="m-track m-ctrack" id="mCare"></div>
@@ -2547,5 +2547,13 @@ var h=document.querySelector('.m-rev .m-h');if(h&&!document.querySelector('.m-de
 </style>
 <script id="lumina-fix2-js">(function(){function f(){[].forEach.call(document.querySelectorAll('img:not([alt])'),function(i){i.alt=''});
 [].forEach.call(document.querySelectorAll('.m-site img[alt=""]'),function(i){var h=i.closest('figure,article,a,.m-card,.sv-tile');var t=h&&(h.querySelector('b,figcaption,h3')||{}).textContent;if(t)i.alt=t.trim()})}
-f();setTimeout(f,600);setTimeout(f,1800)})();</script></body>
+f();setTimeout(f,600);setTimeout(f,1800)})();</script><style id="lumina-fix3-css">
+@media(max-width:760px){
+.demo-badge{top:21px;left:176px;padding:5px 9px;font-size:9.5px}
+#reviews{padding-bottom:calc(var(--cut)*2.2 + 14px)}
+#reviews .sheet-box{padding-bottom:96px}
+}
+@media(max-width:359px){.demo-badge{top:74px;left:12px}}
+body:has(#mMenu:not([hidden])) .demo-badge{opacity:0}
+</style></body>
 </html>
