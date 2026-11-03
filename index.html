@@ -1796,8 +1796,9 @@ window.__fillCat=function(cat){
 
 <script>
 document.documentElement.classList.add('js');
-/* Отправка заявки на сервер (send.php). Если send.php не найден или не настроен — демо-режим. */
+/* Отправка заявки на приёмник (Cloudflare Worker). Если адрес не указан или приёмник не настроен — демо-режим. */
 window.__sendLead = function (payload) {
+  if (!CONFIG.LEADS_URL || CONFIG.LEADS_URL.indexOf('ВСТАВЬТЕ') === 0) return Promise.resolve('demo');
   return fetch(CONFIG.LEADS_URL, { method: 'GET', cache: 'no-store' })
     .then(function (r) { return r.ok ? r.json() : null; })
     .catch(function () { return null; })
@@ -1815,8 +1816,9 @@ window.__sendLead = function (payload) {
     });
 };
 const CONFIG = {
-  // Заявки уходят через send.php на сервере (Telegram и почта настраиваются там, токен на сайте не хранится).
-  LEADS_URL: 'send.php',
+  // Заявки уходят через Cloudflare Worker (Telegram и почта настраиваются там, токен на сайте не хранится).
+  // Адрес приёмника заявок (Cloudflare Worker). Пока стоит заглушка, сайт работает в демо-режиме.
+  LEADS_URL: 'ВСТАВЬТЕ_АДРЕС_WORKER',
 
   // --- Ссылки ---
   SLIVKI_URL: 'https://www.slivki.by/',
