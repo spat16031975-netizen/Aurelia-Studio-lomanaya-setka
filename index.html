@@ -1595,7 +1595,7 @@ window.__fillCat=function(cat){
         <div class="field" data-f="name"><label for="ol-name">Меня зовут</label><input type="text" id="ol-name" maxlength="60" autocomplete="given-name"><div class="error-msg">Пожалуйста, укажите имя.</div></div>
         <div class="field" data-f="phone"><label for="ol-phone">Мой телефон</label><input type="tel" id="ol-phone" inputmode="tel" autocomplete="tel" placeholder="+375 (29) 000-00-00"><div class="error-msg">Введите номер в формате +375 (XX) XXX-XX-XX.</div></div>
         <div class="hp" aria-hidden="true"><label>Не заполняйте<input type="text" id="ol-hp" tabindex="-1" autocomplete="off"></label></div>
-        <div class="field" data-f="consent"><label class="check" for="ol-consent"><input type="checkbox" id="ol-consent"><span>Я даю согласие на обработку моих персональных данных (имя, телефон) для обработки заявки, в том числе на их передачу в мессенджер Telegram, в соответствии с <button type="button" class="inline-link" data-policy="pd">Политикой обработки персональных данных</button> и <button type="button" class="inline-link" data-policy="privacy">Политикой конфиденциальности</button>.</span></label><div class="error-msg">Поставьте галочку, чтобы мы могли записать вас.</div></div>
+        <div class="field" data-f="consent"><label class="check" for="ol-consent"><input type="checkbox" id="ol-consent"><span>Я даю согласие на обработку моих персональных данных (имя, телефон) для обработки заявки, в том числе на их передачу в мессенджер Telegram и на электронную почту, в соответствии с <button type="button" class="inline-link" data-policy="pd">Политикой обработки персональных данных</button> и <button type="button" class="inline-link" data-policy="privacy">Политикой конфиденциальности</button>.</span></label><div class="error-msg">Поставьте галочку, чтобы мы могли записать вас.</div></div>
         <button type="submit" class="btn btn-primary" id="olSubmit">Записаться</button>
         <div class="form-status" id="olStatus" role="status" aria-live="polite"></div>
       </form>
@@ -1628,7 +1628,7 @@ window.__fillCat=function(cat){
         </div>
         <div class="hp" aria-hidden="true"><label>Не заполняйте это поле<input type="text" name="website" id="f-hp" tabindex="-1" autocomplete="off"></label></div>
         <div class="field" data-field="consent" style="margin-bottom:0">
-          <label class="check" for="f-consent"><input type="checkbox" id="f-consent" name="consent" required><span>Я даю согласие на обработку моих персональных данных (имя, телефон) для обработки заявки, в том числе на их передачу в мессенджер Telegram, в соответствии с <button type="button" class="inline-link" data-policy="pd">Политикой обработки персональных данных</button>.</span></label>
+          <label class="check" for="f-consent"><input type="checkbox" id="f-consent" name="consent" required><span>Я даю согласие на обработку моих персональных данных (имя, телефон) для обработки заявки, в том числе на их передачу в мессенджер Telegram и на электронную почту, в соответствии с <button type="button" class="inline-link" data-policy="pd">Политикой обработки персональных данных</button>.</span></label>
           <div class="error-msg">Поставьте галочку, чтобы мы могли связаться с вами.</div>
         </div>
         <div class="field" data-field="ads" style="margin-bottom:0">
@@ -1710,7 +1710,7 @@ window.__fillCat=function(cat){
 
   <h3>4. Передача сведений третьим лицам</h3>
   <ul>
-    <li>Заявка передаётся сотрудникам салона через мессенджер Telegram. Серверы Telegram могут находиться за пределами Республики Беларусь (подробнее в Политике обработки персональных данных).</li>
+    <li>Заявка передаётся сотрудникам салона через мессенджер Telegram и по электронной почте. Серверы Telegram могут находиться за пределами Республики Беларусь (подробнее в Политике обработки персональных данных).</li>
     <li>Для отображения шрифтов страница обращается к сервису Google Fonts. При этом оператор этого сервиса получает технические данные запроса, например IP-адрес.</li>
     <li>Иным третьим лицам сведения не продаются и не передаются, кроме случаев, предусмотренных законодательством Республики Беларусь.</li>
   </ul>
@@ -1719,7 +1719,7 @@ window.__fillCat=function(cat){
   <p>На сайте есть ссылки на Instagram, Яндекс Карты и Viber. Эти ресурсы имеют собственные правила обработки данных, и Оператор не отвечает за их содержание и политику конфиденциальности.</p>
 
   <h3>6. Защита сведений</h3>
-  <p>Оператор принимает правовые, организационные и технические меры защиты, предусмотренные законодательством Республики Беларусь. Заявка передаётся в Telegram по защищённому протоколу HTTPS.</p>
+  <p>Оператор принимает правовые, организационные и технические меры защиты, предусмотренные законодательством Республики Беларусь. Заявка передаётся в Telegram по защищённому протоколу HTTPS, а также направляется на электронную почту Оператора.</p>
 
   <h3>7. Ваши права</h3>
   <p>Вы вправе получать информацию об обработке своих персональных данных, требовать их изменения, прекращения обработки и удаления, а также отозвать согласие. Подробнее о правах и порядке их реализации — в Политике обработки персональных данных.</p>
@@ -1767,7 +1767,7 @@ window.__fillCat=function(cat){
   <p>Данные обрабатываются в течение срока, необходимого для обработки заявки и связи с посетителем. После достижения цели обработки, а также после отзыва согласия данные удаляются (блокируются и удаляются в сроки, установленные Законом), если законодательством не предусмотрено иное.</p>
 
   <h3>8. Передача данных и трансграничная передача</h3>
-  <p>Заявка передаётся сотрудникам Оператора через мессенджер Telegram. Серверы Telegram могут находиться за пределами Республики Беларусь, в государствах, где может отсутствовать надлежащий уровень защиты персональных данных. В соответствии со статьёй 9 Закона трансграничная передача в такие государства допускается при условии, что субъект дал согласие после информирования о рисках. Субъект проинформирован об этом риске и, отправляя заявку и ставя отметку согласия, соглашается на такую передачу. Если вы не согласны, не отправляйте форму и свяжитесь с салоном по телефону.</p>
+  <p>Заявка передаётся сотрудникам Оператора через мессенджер Telegram и по электронной почте. Серверы Telegram могут находиться за пределами Республики Беларусь, в государствах, где может отсутствовать надлежащий уровень защиты персональных данных. В соответствии со статьёй 9 Закона трансграничная передача в такие государства допускается при условии, что субъект дал согласие после информирования о рисках. Субъект проинформирован об этом риске и, отправляя заявку и ставя отметку согласия, соглашается на такую передачу. Если вы не согласны, не отправляйте форму и свяжитесь с салоном по телефону.</p>
   <p>Иным третьим лицам данные не предоставляются, кроме случаев, предусмотренных законодательством Республики Беларусь.</p>
 
   <h3>9. Права субъекта</h3>
@@ -1796,12 +1796,27 @@ window.__fillCat=function(cat){
 
 <script>
 document.documentElement.classList.add('js');
+/* Отправка заявки на сервер (send.php). Если send.php не найден или не настроен — демо-режим. */
+window.__sendLead = function (payload) {
+  return fetch(CONFIG.LEADS_URL, { method: 'GET', cache: 'no-store' })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .catch(function () { return null; })
+    .then(function (st) {
+      if (!st || !st.configured) return 'demo';
+      return fetch(CONFIG.LEADS_URL, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
+      }).then(function (r) {
+        return r.json().catch(function () { return {}; }).then(function (j) {
+          if (r.status === 429) return 'again';
+          if (!r.ok || !j.ok) throw new Error('send failed');
+          return 'ok';
+        });
+      });
+    });
+};
 const CONFIG = {
-  // --- Telegram ---
-  // ВНИМАНИЕ: токен бота виден в коде страницы любому посетителю.
-  // Используйте отдельного бота только для заявок и при необходимости перевыпустите токен.
-  TELEGRAM_BOT_TOKEN: 'ВСТАВЬТЕ_ТОКЕН_БОТА',
-  TELEGRAM_CHAT_ID: 'ВСТАВЬТЕ_CHAT_ID',
+  // Заявки уходят через send.php на сервере (Telegram и почта настраиваются там, токен на сайте не хранится).
+  LEADS_URL: 'send.php',
 
   // --- Ссылки ---
   SLIVKI_URL: 'https://www.slivki.by/',
@@ -1964,32 +1979,24 @@ function initForm() {
       }
     } catch (_) {}
 
-    if (!CONFIG.TELEGRAM_BOT_TOKEN || CONFIG.TELEGRAM_BOT_TOKEN.indexOf('ВСТАВЬТЕ') === 0 ||
-        !CONFIG.TELEGRAM_CHAT_ID || CONFIG.TELEGRAM_CHAT_ID.indexOf('ВСТАВЬТЕ') === 0) {
-      showStatus('ok', 'Спасибо! Это демо-версия: заявка никуда не отправляется, так клиент увидит ответ после отправки.'); form.reset(); setTopic('');
-      console.warn('Заполните TELEGRAM_BOT_TOKEN и TELEGRAM_CHAT_ID в блоке CONFIG.');
-      return;
-    }
-
     sending = true; btn.disabled = true; const oldText = btn.textContent; btn.textContent = 'Отправляем…';
 
-    const text =
-      '<b>Новая заявка с сайта</b>\n' +
-      (topic === 'certificate' ? 'Тема: подарочный сертификат\n' : topic === 'discount' ? 'Тема: скидка 10% на первое посещение\n' : '') +
-      'Имя: ' + escapeHtml(nameI.value.trim()) + '\n' +
-      'Телефон: ' + escapeHtml(phoneI.value.trim()) + '\n' +
-      'Время созвона: ' + escapeHtml(timeS.value) + '\n' +
-      'Согласие на рассылку: ' + ((document.getElementById('f-ads')||{}).checked ? 'да' : 'нет') + '\n' +
-      'Отправлено: ' + escapeHtml(minskDateTime()) + ' (Минск)';
-
     try {
-      const res = await fetch('https://api.telegram.org/bot' + CONFIG.TELEGRAM_BOT_TOKEN + '/sendMessage', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chat_id: CONFIG.TELEGRAM_CHAT_ID, text, parse_mode: 'HTML' })
+      const result = await window.__sendLead({
+        type: 'callback', topic: topic, name: nameI.value.trim(), phone: phoneI.value.trim(),
+        time: timeS.value, ads: !!(document.getElementById('f-ads') || {}).checked, website: hp.value
       });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok || !data.ok) throw new Error('Telegram error');
+      if (result === 'demo') {
+        showStatus('ok', 'Спасибо! Это демо-версия: заявка никуда не отправляется, так клиент увидит ответ после отправки.');
+        form.reset(); setTopic('');
+        btn.disabled = false; btn.textContent = oldText; sending = false;
+        return;
+      }
+      if (result === 'again') {
+        showStatus('ok', 'Заявка уже отправлена. Мы скоро свяжемся с вами.');
+        btn.disabled = false; btn.textContent = oldText; sending = false;
+        return;
+      }
       try { localStorage.setItem('lumina_last_submit', String(Date.now())); } catch (_) {}
       showStatus('ok', 'Спасибо! Мы свяжемся с вами в указанное время.');
       form.reset();
@@ -2218,11 +2225,12 @@ auto();})();</script>
     if(!valid())return;
     try{if(Date.now()-parseInt(localStorage.getItem('lumina_last_submit')||'0',10)<60000){show('ok','Заявка уже отправлена. Мы скоро свяжемся с вами.');return}}catch(_){}
     var ph=CONFIG.PHONES.map(function(p){return '<a href="tel:'+p.tel+'">'+p.label+'</a>'}).join('');
-    if(!CONFIG.TELEGRAM_BOT_TOKEN||CONFIG.TELEGRAM_BOT_TOKEN.indexOf('ВСТАВЬТЕ')===0||!CONFIG.TELEGRAM_CHAT_ID||CONFIG.TELEGRAM_CHAT_ID.indexOf('ВСТАВЬТЕ')===0){show('ok','Спасибо! Это демо-версия: запись никуда не отправляется, так клиент увидит ответ после отправки.');S4.reset();return}
     sending=true;btn.disabled=true;var old=btn.textContent;btn.textContent='Отправляем…';
-    var text='<b>Новая запись с сайта</b>\nМастер: '+escapeHtml(sel.m.name)+'\nПроцедура: '+escapeHtml(sel.svc.name)+' ('+escapeHtml(fmt(sel.svc.price))+')\nДень: '+escapeHtml(sel.date.label)+'\nВремя: '+sel.time+'\nИмя: '+escapeHtml(nameI.value.trim())+'\nТелефон: '+escapeHtml(phoneI.value.trim());
-    fetch('https://api.telegram.org/bot'+CONFIG.TELEGRAM_BOT_TOKEN+'/sendMessage',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:CONFIG.TELEGRAM_CHAT_ID,text:text,parse_mode:'HTML'})})
-    .then(function(r){return r.json().then(function(j){if(!r.ok||!j.ok)throw 0})}).then(function(){try{localStorage.setItem('lumina_last_submit',String(Date.now()))}catch(_){}show('ok','Спасибо! Мы подтвердим запись по телефону.');S4.reset();btn.textContent='Заявка отправлена';setTimeout(function(){btn.disabled=false;btn.textContent=old;sending=false},60000)})
+    window.__sendLead({type:'booking',master:sel.m.name,service:sel.svc.name,price:fmt(sel.svc.price),date:sel.date.label,slot:sel.time,name:nameI.value.trim(),phone:phoneI.value.trim(),website:$('#ol-hp').value})
+    .then(function(res){
+      if(res==='demo'){show('ok','Спасибо! Это демо-версия: запись никуда не отправляется, так клиент увидит ответ после отправки.');S4.reset();btn.disabled=false;btn.textContent=old;sending=false;return}
+      if(res==='again'){show('ok','Заявка уже отправлена. Мы скоро свяжемся с вами.');btn.disabled=false;btn.textContent=old;sending=false;return}
+      try{localStorage.setItem('lumina_last_submit',String(Date.now()))}catch(_){}show('ok','Спасибо! Мы подтвердим запись по телефону.');S4.reset();btn.textContent='Заявка отправлена';setTimeout(function(){btn.disabled=false;btn.textContent=old;sending=false},60000)})
     .catch(function(){show('fail','Не удалось отправить заявку. Позвоните нам: '+ph);btn.disabled=false;btn.textContent=old;sending=false})});
   /* предвыбор из карточек мастеров и коллажа */
   window.__olPick=function(n,sv){if(n&&BM.some(function(x){return x.name===n})){chooseMaster(n,false);if(sv){var b=$$('.ol-s',root).filter(function(x){return x.dataset.svc===sv})[0];if(b)chooseService(b,true)}window.__olFocus=sel.svc?S3:S2}};
